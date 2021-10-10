@@ -21,14 +21,14 @@ const Login = () => {
                 <label className="text-info">email</label>
                 <input 
                 name="email"
-                value={values.email}
+                value={values.email || ''}
                 onChange={handleChanges}
                 type="email" 
                 className="form-control" />
                 <label className="text-info">password</label>
                 <input 
                 name="password"
-                value={values.password}
+                value={values.password || ''}
                 onChange={handleChanges}
                 type="password" 
                 className="form-control" />
