@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as passport from 'passport';
 import {get_books, get_one_book, edit_book, post_book, delete_book } from '../../db/queries/books';
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.get('/:id', async (req, res) => {
        res.status(500).json({ message: "Error with route", error: error.sqlMessage}) 
     }
 });
-router.post('/', async (req, res) => {
+router.post('/',passport.authenticate('jwt'), async (req, res) => {
     const { title, author, price, categoryid } = req.body;
     const newBook = { title, author, price, categoryid };
     try {
@@ -29,7 +30,7 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: "Error with route", error: error.sqlMessage})
     }
 });
-router.put('/:id', async (req, res) => {
+router.put('/:id',passport.authenticate('jwt'), async (req, res) => {
     const { id } = req.params;
     const { title, author, price, categoryid } = req.body;
     const editBook = { title, author, price, categoryid };
@@ -40,7 +41,7 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ message: "Error with route", error: error.sqlMessage})
     }
 });
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',passport.authenticate('jwt'), async (req, res) => {
     const { id } = req.params;
     try {
         await delete_book(Number(id));
